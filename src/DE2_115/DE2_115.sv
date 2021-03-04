@@ -136,20 +136,37 @@ module DE2_115 (
 	inout [6:0] EX_IO
 );
 
-logic keydown;
+logic keydown, keydown2, keydown3;
 logic [3:0] random_value;
 
-Debounce deb0(
+Debounce deb0( // for detect key[0]
 	.i_in(KEY[0]),
 	.i_rst_n(KEY[1]),
 	.i_clk(CLOCK_50),
 	.o_neg(keydown)
 );
 
+
+Debounce deb1(	// for detect key[2]
+	.i_in(KEY[2]),
+	.i_rst_n(KEY[1]),
+	.i_clk(CLOCK_50),
+	.o_neg(keydown2)
+);
+
+Debounce deb2( // for detect key[3]
+	.i_in(KEY[3]),
+	.i_rst_n(KEY[1]),
+	.i_clk(CLOCK_50),
+	.o_neg(keydown3)
+);
+
 Top top0(
 	.i_clk(CLOCK_50),
 	.i_rst_n(KEY[1]),
 	.i_start(keydown),
+	.i_hist(keydown2),
+	.i_pause(keydown3),
 	.o_random_out(random_value)
 );
 

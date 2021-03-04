@@ -1,4 +1,10 @@
 .DS_Store
 .vscode
 
+db/
+incremental_db/
+output_files/
+simulation/
 
+
+*.bak
