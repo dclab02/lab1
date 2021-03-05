@@ -30,7 +30,7 @@ logic [31:0] counter = 32'b0;
 logic [3:0] cycle_time = 4'b0;
 logic [3:0] seed;
 logic [31:0] time_limit_r;
-logic [3:0] sprinkle_counter = 4'b0;
+logic [3:0] blink_counter = 4'b0;
 logic [3:0] random_res;
 
 // ===== import modules =====
@@ -123,14 +123,14 @@ always_ff @(posedge i_clk or negedge i_rst_n) begin
         if(state_w == S_WAIT) begin
             counter <= counter + 1'b1;
         end
-        //  if in display mode sprinkle counter + 1
+        //  if in display mode blink counter + 1
         if(state_w == S_DISP) begin
             counter   	     <= 32'b0;
-            sprinkle_counter <= sprinkle_counter + 1'b1;
+            blink_counter <= blink_counter + 1'b1;
         end
         
         // if time to display, shift the time limit
-        if((counter >= time_limit_r) && (time_limit_r < TIME_UPPERBOUND) && !(sprinkle_counter & 2'b11)) begin		
+        if((counter >= time_limit_r) && (time_limit_r < TIME_UPPERBOUND) && !(blink_counter & 2'b11)) begin		
             time_limit_r <= time_limit_r << 1'b1;			
         end
     end
